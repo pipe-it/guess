@@ -1,4 +1,4 @@
-defmodule UserDetails do
+defmodule Guess.UserDetails do
   def get_name do
     n = 3
     IO.puts("Enter User name not less than 3 characters")

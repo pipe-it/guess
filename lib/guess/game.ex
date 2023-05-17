@@ -1,4 +1,6 @@
-defmodule Game do
+defmodule Guess.Game do
+  alias Guess.UserDetails, as: UD
+
   def start_game do
     IO.puts("***Welcome to the Guessing game***")
     IO.puts("----------------------------------")
@@ -14,8 +16,8 @@ defmodule Game do
       IO.gets("Do you want to play a guessing game? enter y/n and press enter ") |> String.trim()
 
     if play? == "y" do
-      name = UserDetails.get_name()
-      email = UserDetails.get_email()
+      name = UD.get_name()
+      email = UD.get_email()
       play(name, email)
     else
       IO.puts("Bye Bye .. never meet again ")
