@@ -8,6 +8,7 @@ defmodule Guess.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Guess.Repo
       # Starts a worker by calling: Guess.Worker.start_link(arg)
       # {Guess.Worker, arg}
     ]

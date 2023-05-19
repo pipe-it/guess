@@ -1,5 +1,7 @@
 defmodule Guess.Game do
   alias Guess.UserDetails, as: UD
+  alias Guess.Schemas.User
+  alias Guess.Repo
 
   def start_game do
     IO.puts("***Welcome to the Guessing game***")
@@ -18,6 +20,10 @@ defmodule Guess.Game do
     if play? == "y" do
       name = UD.get_name()
       email = UD.get_email()
+      user = %{name: name, email: email}
+      changeset = User.changeset(%User{}, user)
+      Repo.insert(changeset)
+
       play(name, email)
     else
       IO.puts("Bye Bye .. never meet again ")
