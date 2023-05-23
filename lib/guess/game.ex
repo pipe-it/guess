@@ -2,6 +2,7 @@ defmodule Guess.Game do
   alias Guess.UserDetails, as: UD
   alias Guess.Schemas.User
   alias Guess.Repo
+  alias Guess.Schemas.Game
 
   def start_game do
     IO.puts("***Welcome to the Guessing game***")
@@ -20,33 +21,48 @@ defmodule Guess.Game do
     if play? == "y" do
       name = UD.get_name()
       email = UD.get_email()
+
       user = %{name: name, email: email}
       changeset = User.changeset(%User{}, user)
-      Repo.insert(changeset)
 
-      play(name, email)
+      case Repo.insert(changeset) do
+        {:ok, user} ->
+          play(user)
+
+        {:error, error} ->
+          IO.inspect(error)
+          IO.puts("user not found, Unable to start game")
+      end
     else
       IO.puts("Bye Bye .. never meet again ")
     end
   end
 
-  def play(name, email) do
+  def play(user) do
     {index, rn} = Guess.check_number()
 
     gamer = %{
-      name: name,
-      email: email,
+      name: user.name,
+      email: user.email,
       index: index,
       guss_num: rn
     }
 
     print_result(gamer)
-    playagain? = IO.gets("Do you want to play again? press y/n") |> String.trim()
+    game = %{rn: rn, trailcount: index, user_id: user.id}
+    gamechangeset = Game.changeset(%Game{}, game)
 
-    if playagain? == "y" do
-      play(name, email)
+    if gamechangeset.valid? do
+      Repo.insert(gamechangeset)
+      playagain? = IO.gets("Do you want to play again? press y/n") |> String.trim()
+
+      if playagain? == "y" do
+        play(user)
+      else
+        IO.puts("Bye Bye .. never meet again ")
+      end
     else
-      IO.puts("Bye Bye .. never meet again ")
+      IO.puts("Unable to record game")
     end
   end
 
