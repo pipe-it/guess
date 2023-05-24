@@ -26,6 +26,7 @@ defmodule Guess.Schemas.User do
     Repo.all(Guess.Schemas.User)
   end
 
+  @spec user_gamecount(any) :: any
   def user_gamecount(id) do
     query =
       from(g in "games",
@@ -34,6 +35,20 @@ defmodule Guess.Schemas.User do
       )
 
     Repo.all(query)
+  end
+
+  # DELETE FROM users WHERE id = 1;
+
+  def delete_user(record) do
+    Repo.delete(record)
+  end
+
+  # DELETE FROM users WHERE category = 'id' RETURNING *;
+
+  def delete_table(table) do
+    records = Repo.all(table)
+
+    Enum.each(records, &delete_user/1)
   end
 
   # def get_useremail(email) do

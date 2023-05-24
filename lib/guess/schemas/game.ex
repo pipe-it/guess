@@ -14,7 +14,8 @@ defmodule Guess.Schemas.Game do
     game
     |> cast(params, [:user_id, :rn, :trailcount])
     |> validate_required([:rn, :trailcount])
-    |> foreign_key_constraint(:user_id)
+
+    # |> foreign_key_constraint(:user_id)
   end
 
   def list_games do
