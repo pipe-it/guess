@@ -35,8 +35,10 @@ defmodule Guess.Game do
     }
 
     print_result(gamer)
-    playagain? = IO.gets("Do you want to play again? press y/n")
-     |> String.trim()
+
+    playagain? =
+      IO.gets("Do you want to play again? press y/n")
+      |> String.trim()
 
     if playagain? == "y" do
       play(name, email)
