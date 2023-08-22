@@ -25,7 +25,7 @@ defmodule Guess.Game do
   end
 
   def play(name, email) do
-    {index, rn} = Guess.check_number()
+    {index, rn} = Guess.Number.check_number()
 
     gamer = %{
       name: name,
@@ -35,7 +35,8 @@ defmodule Guess.Game do
     }
 
     print_result(gamer)
-    playagain? = IO.gets("Do you want to play again? press y/n") |> String.trim()
+    playagain? = IO.gets()
+    "Do you want to play again? press y/n" |> String.trim()
 
     if playagain? == "y" do
       play(name, email)
@@ -44,7 +45,7 @@ defmodule Guess.Game do
     end
   end
 
-  def print_result(gamer) do
+  defp print_result(gamer) do
     output = """
     *********************************
               Guess Game

@@ -1,4 +1,4 @@
-defmodule Guess do
+defmodule Guess.Number do
   @spec get_number :: binary
   def get_number do
     IO.puts("""
